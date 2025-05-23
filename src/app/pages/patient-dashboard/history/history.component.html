@@ -1,0 +1,35 @@
+<div>
+  <h2>Lịch sử đặt lịch</h2>
+</div>
+
+<nz-collapse nzAccordion>
+  @for (panel of panels; track panel) {
+    <nz-collapse-panel [nzHeader]="panelHeaderTemplate" [nzActive]="panel.active" [nzDisabled]="panel.disabled">
+      <nz-tabset [nzTabPosition]="'left'">
+        <nz-tab nzTitle="Thông tin">
+          
+        </nz-tab>
+      
+        <nz-tab nzTitle="Kết quả">
+          
+        </nz-tab>
+
+        <nz-tab nzTitle="Toa thuốc">
+          
+        </nz-tab>
+      </nz-tabset>
+    </nz-collapse-panel>
+
+    <ng-template #panelHeaderTemplate>
+      <div class="custom-header">
+        <span>{{ panel.name }}</span>
+        <nz-tag *ngIf="panel.status" [nzColor]="panel.status | statusColor">
+          {{ panel.status | statusLabel }}
+        </nz-tag>
+      </div>
+      @if(panel.status === "CONFIRM") {
+        <button (click)="openCancelModal(panel.id, $event)">hủy</button>
+      }
+    </ng-template>
+  }
+</nz-collapse>

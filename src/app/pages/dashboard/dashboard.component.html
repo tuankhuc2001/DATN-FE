@@ -1,0 +1,33 @@
+<nz-layout class="dashboard">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" nzWidth="200px" class="sider-css">
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li *ngFor="let item of menuItems"
+      nz-menu-item
+      [routerLink]="item.route"
+      routerLinkActive="active-menu"
+      [nzSelected]="isActive(item.route)">
+    <span>{{ item.label }}</span>
+  </li>
+    </ul>
+  </nz-sider>
+
+  <nz-layout>
+    <nz-header class="header">
+      <div class="avatar">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          <nz-avatar [ngStyle]="{'background-color': avatarBgColor}" [nzText]="userInitial"></nz-avatar>
+        </a>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable class="menu-avatar">
+            <li nz-menu-item (click)="logout()">Đăng xuất</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-header>
+
+    <nz-content class="content">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

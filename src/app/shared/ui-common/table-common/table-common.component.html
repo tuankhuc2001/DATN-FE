@@ -1,0 +1,29 @@
+<nz-table #basicTable [nzData]="displayData" [nzBordered]="true" [nzSize]="'middle'" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns" [nzWidth]="col.width!">{{ col.header }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of displayData">
+      <td *ngFor="let col of columns">
+        <!-- Kiểm tra nếu là cột hành động thì render button -->
+        <ng-container *ngIf="col.field === 'action'; else normalData">
+          <button nz-button nzType="primary" nzSize="small" (click)="onUpdate(data)">Cập nhật</button>
+          <button nz-button nzType="default" nzSize="small" nzDanger (click)="onDelete(data.id)">Xóa</button>
+        </ng-container>
+        <ng-template #normalData>
+          {{ data[col.field] }}
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- Phân trang nằm bên ngoài -->
+<nz-pagination
+  [nzPageSize]="pageSize"
+  [nzTotal]="totalItems"
+  [(nzPageIndex)]="pageIndex"
+  (nzPageIndexChange)="onPageChange($event)">
+</nz-pagination>

@@ -1,0 +1,47 @@
+<div id="login">
+
+  <div class="header">
+    <img src="../../../assets/images/logo.png" alt="Logo">
+    <a href="#">Trợ giúp?</a>
+  </div>
+  <div class="wrapper">
+    <div class="content">
+      <div class="form">
+        <p class="title">Đăng nhập</p>
+        <div class="signup">
+          <p>Bạn chưa có tài khoản?</p>
+          <a href="/register" class="dangky">Đăng ký ngay.</a>
+        </div>
+
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <nz-form-item class="input-group">
+            <nz-form-label [nzSpan]="24" class="label">Tên đăng nhập <span class="required">*</span></nz-form-label>
+            <nz-form-control
+              [nzErrorTip]="loginForm.controls['phone'].dirty && loginForm.controls['phone'].invalid ? 'Vui lòng nhập tên đăng nhập' : undefined">
+              <input nz-input formControlName="phone" placeholder="Số điện thoại hoặc Email">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="input-group">
+            <nz-form-label [nzSpan]="24" class="label">Mật khẩu <span class="required">*</span></nz-form-label>
+            <nz-form-control
+              [nzErrorTip]="loginForm.controls['password'].dirty && loginForm.controls['password'].invalid ? 'Vui lòng nhập mật khẩu' : undefined">
+              <input nz-input type="password" formControlName="password" placeholder="Mật khẩu">
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" class="submit">Đăng nhập</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+        <div class="reset">
+          <p>Quên mật khẩu?</p>
+          <a href="/forget-password">Đặt lại mật khẩu.</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
