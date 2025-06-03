@@ -1,0 +1,20 @@
+.table {
+    min-height: 520px;
+}
+
+.col-action {
+  display: flex;
+  justify-content: center;
+}
+
+.material-icons {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+.footer {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}

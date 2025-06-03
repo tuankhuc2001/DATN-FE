@@ -14,4 +14,8 @@ constructor(private http: HttpClient) { }
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/accounts/doctor`)
   }
 
+  createAccountDoctor(body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/register`, body)
+  }
+
 }

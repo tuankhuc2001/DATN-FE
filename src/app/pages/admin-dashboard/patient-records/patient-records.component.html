@@ -1,7 +1,15 @@
-<app-table-common
-  [columns]="tableColumns"
-  [listOfData]="fullTableData"
-  [totalItems]="totalRecords"
-  [pageSize]="pageSize"
-  (pageChange)="onTablePageChange($event)">
+<div class="title">
+  <label>Quản lý hồ sơ bệnh nhận</label>
+</div>
+
+<app-table-common [columns]="tableColumns" [listOfData]="fullTableData" [totalItems]="totalRecords"
+  [pageSize]="pageSize" (pageChange)="onTablePageChange($event)"
+  (viewDetailAction)="openViewDetailModal($event, viewDetailModalContent)">
 </app-table-common>
+
+<ng-template #viewDetailModalContent>
+  <app-table-common [columns]="tableColumnResult" [listOfData]="resultKh" [totalItems]="totalRecordsResultKh"
+    [pageSize]="pageSize" (pageChange)="onTablePageChange($event)"
+    (viewDetailAction)="openViewDetailModal($event, viewDetailModalContent)">
+  </app-table-common>
+</ng-template>

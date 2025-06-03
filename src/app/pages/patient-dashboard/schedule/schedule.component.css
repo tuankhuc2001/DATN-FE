@@ -1,0 +1,27 @@
+nz-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Khoảng cách giữa các card */
+}
+nz-col {
+  flex: 1 1 calc(25% - 16px); /* 4 card/row, trừ đi khoảng cách */
+  max-width: calc(25% - 16px);
+}
+@media (max-width: 1200px) {
+  nz-col {
+    flex: 1 1 calc(33.33% - 16px); /* 3 card/row */
+    max-width: calc(33.33% - 16px);
+  }
+}
+@media (max-width: 768px) {
+  nz-col {
+    flex: 1 1 calc(50% - 16px); /* 2 card/row */
+    max-width: calc(50% - 16px);
+  }
+}
+@media (max-width: 480px) {
+  nz-col {
+    flex: 1 1 100%; /* 1 card/row */
+    max-width: 100%;
+  }
+}

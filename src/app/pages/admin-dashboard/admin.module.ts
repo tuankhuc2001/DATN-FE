@@ -11,6 +11,8 @@ import { FacilityComponent } from './facility/facility.component'
 import { ServiceComponent } from './service/service.component'
 import { MedicineComponent } from './medicine/medicine.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         AdminRoutingModule,
         UiCommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NzSelectModule,
+        NzDatePickerModule
     ],
     providers: [],
 })

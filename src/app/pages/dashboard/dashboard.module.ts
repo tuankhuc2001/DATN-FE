@@ -23,6 +23,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
 
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+
 
 import { ProfilePatientComponent } from '../patient-dashboard/profile/profile.component';
 import { HistoryComponent } from '../patient-dashboard/history/history.component';
@@ -32,6 +35,7 @@ import { ProfileDoctorComponent } from '../docter-dashboard/profile/profile.comp
 import { ScheduleComponent } from '../docter-dashboard/schedule/schedule.component';
 import { HealthRecordComponent } from '../patient-dashboard/health-record/health-record.component';
 import { UiCommonModule } from '../../shared/ui-common/ui-common.module';
+import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,7 @@ import { UiCommonModule } from '../../shared/ui-common/ui-common.module';
     ProfilePatientComponent,
     HistoryComponent,
     HealthRecordComponent,
+    ScheduleServiceComponent,
 
     //Doctor
     ProfileDoctorComponent,
@@ -76,7 +81,9 @@ import { UiCommonModule } from '../../shared/ui-common/ui-common.module';
     NzBadgeModule,
     NzTableModule,
     NzPaginationModule,
-    NzInputModule
+    NzInputModule,
+    NzCardModule,
+    NzSelectModule
   ]
 })
 export class DashboardModule { }

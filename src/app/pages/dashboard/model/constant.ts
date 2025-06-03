@@ -14,6 +14,12 @@ export const MENU_ITEMS: MenuItem[] = [
     roles: ['PATIENT']
   },
   {
+    label: 'Đặt lịch khám',
+    icon: 'user',
+    route: '/dashboard/schedule',
+    roles: ['PATIENT']
+  },
+  {
     label: 'Lịch sử',
     icon: 'user',
     route: '/dashboard/history',

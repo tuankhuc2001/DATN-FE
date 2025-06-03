@@ -5,7 +5,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -21,32 +21,39 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import * as AllIcons from '@ant-design/icons-angular/icons';
 @NgModule({
   declarations: [TableCommonComponent],
   imports: [
     CommonModule,
     NzTableModule,
-        NzLayoutModule,
-        NzMenuModule,
-        NzButtonModule,
-        NzBreadCrumbModule,
-        NzIconModule,
-        NzFormModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NzTabsModule,
-        NzRadioModule,
-        NzDatePickerModule,
-        RouterModule,
-        NzAvatarModule,
-        NzDropDownModule,
-        NzTagModule,
-        NzCollapseModule,
-        NzCalendarModule,
-        NzBadgeModule,
-        NzPaginationModule,
-        NzInputModule
+    NzLayoutModule,
+    NzMenuModule,
+    NzButtonModule,
+    NzBreadCrumbModule,
+    NzIconModule,
+    NzFormModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzTabsModule,
+    NzRadioModule,
+    NzDatePickerModule,
+    RouterModule,
+    NzAvatarModule,
+    NzDropDownModule,
+    NzTagModule,
+    NzCollapseModule,
+    NzCalendarModule,
+    NzBadgeModule,
+    NzPaginationModule,
+    NzInputModule
+  ],
+  providers: [
+    {
+      provide: NZ_ICONS,
+      useValue: Object.values(AllIcons)
+    }
   ],
   exports: [TableCommonComponent]
 })
-export class UiCommonModule {}
+export class UiCommonModule { }

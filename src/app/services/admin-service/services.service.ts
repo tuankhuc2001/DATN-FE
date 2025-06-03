@@ -14,4 +14,8 @@ constructor(private http: HttpClient) { }
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/service`)
   }
 
+    getServiceInFacility(): Observable<any> {
+    return this.http.get<any>(`${APP_CONFIG.baseUrl}/service/facility`)
+  }
+
 }

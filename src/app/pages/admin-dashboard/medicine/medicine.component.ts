@@ -14,7 +14,7 @@ export class MedicineComponent implements OnInit {
     { header: 'Tên Thuốc', field: 'name' },
     { header: 'Mô tả', field: 'describemedicine' },
     { header: 'Số lượng', field: 'barcode' },
-    { header: 'Hành động', field: 'action', width: '150px' }
+    { header: 'Hành động', field: 'action', width: '150px', type: ['update', 'delete'] }
 
   ];
 

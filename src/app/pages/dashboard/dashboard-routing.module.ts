@@ -7,6 +7,7 @@ import { HistoryComponent } from '../patient-dashboard/history/history.component
 import { ProfileDoctorComponent } from '../docter-dashboard/profile/profile.component';
 import { ScheduleComponent } from '../docter-dashboard/schedule/schedule.component';
 import { HealthRecordComponent } from '../patient-dashboard/health-record/health-record.component';
+import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,8 @@ const routes: Routes = [
       { path: 'patient', component: ProfilePatientComponent, },
       { path: 'history', component: HistoryComponent, },
       { path: 'health-record', component: HealthRecordComponent, },
+      { path: 'schedule', component: ScheduleServiceComponent, },
+
 
       //doctor
       { path: 'doctor', component: ProfileDoctorComponent, },

@@ -10,9 +10,23 @@ import { UserInformationService } from '../../../services/userInformationService
 export class HealthRecordComponent implements OnInit {
 
   tableColumns = [
-    { header: 'ID', field: 'id', width: '100px' },
-    { header: 'Tên', field: 'name', width: '200px' },
-    { header: 'Email', field: 'email' }
+    { header: 'Stt', field: 'id', width: '100px' },
+    { header: 'Tên cơ sở', field: 'name', width: '200px' },
+    { header: 'Tên dịch vụ', field: 'email' },
+    { header: 'Tên bác sĩ', field: 'email' },
+
+    { header: 'Ngày khám', field: 'email' },
+
+    { header: 'Giá khám', field: 'email' },
+
+    { header: 'Kết luận', field: 'email' },
+
+    { header: 'Phân tích', field: 'email' },
+
+    { header: 'Mức độ sức khỏe', field: 'email' },
+    { header: 'Hành động', field: 'email' },
+
+
   ];
 
   tableData = [
@@ -32,6 +46,7 @@ export class HealthRecordComponent implements OnInit {
 
   ngOnInit() {
     this.userInformation = this.userService.getAccount();
+    this.loadProfile()
 
   }
 

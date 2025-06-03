@@ -1,0 +1,42 @@
+<div style="background-color: white; height: 100%;">
+  <h1 style="margin-bottom: 20px;">Dịch vụ khám bệnh</h1>
+
+  <nz-select
+    nzPlaceHolder="Chọn bệnh viện"
+    style="width: 300px;"
+    (ngModelChange)="handleFacilityChange($event)"
+    [ngModel]="'all'"
+  >
+    <nz-option nzValue="all" nzLabel="Tất cả bệnh viện"></nz-option>
+    <nz-option *ngFor="let item of facility" [nzValue]="item.id" [nzLabel]="item.facility_name"></nz-option>
+  </nz-select>
+
+  <!-- Container với scroll -->
+  <div 
+    style="
+      margin-top: 20px; 
+      max-height: 720px;
+      overflow-y: auto; 
+      padding-right: 8px;"
+  >
+    <div nz-row [nzGutter]="16">
+      <div 
+        nz-col 
+        *ngFor="let item of service" 
+        [nzXs]="24" 
+        [nzSm]="12" 
+        [nzMd]="8" 
+        [nzLg]="6"
+        style="margin-bottom: 16px;"
+      >
+        <nz-card [nzHoverable]="true" (click)="handleCardClick(item)" style="height: 100%;">
+          <nz-card-meta [nzTitle]="item.name"></nz-card-meta>
+          <img style="width: 100%; height: 150px; object-fit: cover; margin-top: 15px;" [src]="item.image" alt="Không có ảnh" />
+          <p>Giá tiền: {{item.price}}</p>
+          <p>Mô tả: {{item.description}}</p>
+          <p *ngIf="item.facility">Tên bệnh viện: {{item.facility.facility_name}}</p>
+        </nz-card>
+      </div>
+    </div>
+  </div>
+</div>

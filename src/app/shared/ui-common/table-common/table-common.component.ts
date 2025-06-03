@@ -6,13 +6,15 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
   styleUrls: ['./table-common.component.scss']
 })
 export class TableCommonComponent implements OnInit, OnChanges {
-  @Input() columns: { header: string; field: string; width?: string }[] = []; 
+  @Input() columns: { header: string; field: string; width?: string; type?: string[] }[] = []; 
   @Input() listOfData: any[] = [];
   @Input() totalItems: number = 0;
   @Input() pageSize: number = 10;
   @Output() pageChange = new EventEmitter<number>(); 
   @Output() updateAction = new EventEmitter<any>(); 
   @Output() deleteAction = new EventEmitter<number>();
+  @Output() viewDetailAction = new EventEmitter<any>(); 
+
 
   pageIndex: number = 1;
   displayData: any[] = [];
@@ -51,4 +53,11 @@ export class TableCommonComponent implements OnInit, OnChanges {
   onDelete(id: number) {
     this.deleteAction.emit(id);
   }
+
+  onViewDetail(data: any) {
+    console.log('here');
+    
+    this.viewDetailAction.emit(data);
+
+  } 
 }
