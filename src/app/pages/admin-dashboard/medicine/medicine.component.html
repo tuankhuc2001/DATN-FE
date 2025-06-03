@@ -1,6 +1,8 @@
-<div class="header">
-  <label for="">Quản lý thuốc</label>
-  <button>Thêm mới thuốc</button>
+<div class="title">
+  <label>Quản lý thuốc</label>
+</div>
+<div class="action-header">
+  <button nz-button nzType="primary" (click)="openMedicineModal('create', medicineModalContent)">Thêm mới thuốc</button>
 </div>
 
 <app-table-common
@@ -9,11 +11,13 @@
   [totalItems]="totalRecords"
   [pageSize]="pageSize"
   (pageChange)="onTablePageChange($event)"
-  (updateAction)="openUpdateModal($event, updateModalContent)">
+  (updateAction)="openMedicineModal('update', medicineModalContent, $event)"
+  (deleteAction)="openDeleteModal($event, deleteConfirmModal)">
 </app-table-common>
 
-<ng-template #updateModalContent>
-  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()">
+<!-- Modal dùng chung cho thêm & cập nhật -->
+<ng-template #medicineModalContent>
+  <form [formGroup]="medicineForm" (ngSubmit)="onSubmitMedicine()">
     <div class="form-group">
       <label>Nhập tên thuốc:</label>
       <input nz-input formControlName="name" placeholder="Nhập tên thuốc" />
@@ -26,10 +30,20 @@
       <label>Nhập mô tả:</label>
       <input nz-input formControlName="describemedicine" placeholder="Nhập mô tả" />
     </div>
-
     <div class="modal-footer">
-      <button nz-button nzType="primary" type="submit">Cập nhật</button>
+      <button nz-button nzType="primary" type="submit">
+        {{ modalMode === 'create' ? 'Thêm mới' : 'Cập nhật' }}
+      </button>
       <button nz-button nzType="default" type="button" (click)="closeModal()">Hủy</button>
     </div>
   </form>
+</ng-template>
+
+<!-- Modal xác nhận xóa -->
+<ng-template #deleteConfirmModal>
+  <p>Bạn có chắc chắn muốn xóa thuốc?</p>
+  <div class="modal-footer">
+    <button nz-button nzType="default" (click)="closeModal()">Hủy</button>
+    <button nz-button nzType="primary" nzDanger (click)="confirmDeleteMedicine()">Xác nhận</button>
+  </div>
 </ng-template>

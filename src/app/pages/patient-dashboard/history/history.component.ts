@@ -1,4 +1,3 @@
-// history.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -14,10 +13,9 @@ import { StatusResponse } from '../../../shared/models/enums';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit {
-  historyInfo: any[] = [];
+  panels: any[] = [];
   selectedOrderId: number | null = null;
   userInformation: any;
-  panels: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -36,16 +34,24 @@ export class HistoryComponent implements OnInit {
     if (this.userInformation) {
       this.historyService.getHistory(this.userInformation.id).subscribe({
         next: (res) => {
-          this.historyInfo = res.data
-          if (res.data && Array.isArray(res.data) && res.data.length) {
+          if (res.data && Array.isArray(res.data)) {
             this.panels = res.data
-              .filter((item: any) => Array.isArray(item.results) && item.results.length)
+              .filter((item: any) =>
+                (Array.isArray(item.results) && item.results.length > 0) ||
+                (item.prescription?.prescriptionItems?.length > 0)
+              )
+              .sort((a: any, b: any) => {
+                const dateA = new Date(a.testDate || a.createdAt).getTime();
+                const dateB = new Date(b.testDate || b.createdAt).getTime();
+                return dateB - dateA; // Sắp xếp giảm dần (mới nhất trước)
+              })
               .map((item: any, index: number) => ({
                 id: item.id,
                 active: index === 0,
                 disabled: false,
-                name: this.formatDate(item.results[0].ordertoPrescription.createdAt),
-                status: item.status
+                name: this.formatDate(item.testDate || item.createdAt),
+                status: item.status,
+                orderDetail: item
               }));
           }
         },
@@ -70,25 +76,19 @@ export class HistoryComponent implements OnInit {
   }
 
   deleteOrder(): void {
-    console.log('here');
-    console.log(this.selectedOrderId, 'lú');
-    
-
     if (this.selectedOrderId) {
-      console.log('hi');
-      
       this.historyService.deleteOrder(this.selectedOrderId).subscribe({
         next: (res) => {
           this.notificationService.showNotification({
             severity: StatusResponse.SUCCESS,
             message: res.message
           });
-          this.fetchOrders()
+          this.fetchOrders();
         },
         error: (err) => {
-
-        },
-      })
+          console.error('Lỗi khi hủy đặt lịch:', err);
+        }
+      });
     }
   }
 

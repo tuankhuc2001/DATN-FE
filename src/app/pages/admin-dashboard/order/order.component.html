@@ -1,7 +1,21 @@
-<app-table-common
-  [columns]="tableColumns"
-  [listOfData]="fullTableData"
-  [totalItems]="totalRecords"
-  [pageSize]="pageSize"
-  (pageChange)="onTablePageChange($event)">
+<div class="title">
+  <label>Quản lý lịch khám</label>
+</div>
+
+<app-table-common [columns]="tableColumns" [listOfData]="fullTableData" [totalItems]="totalRecords"
+  [pageSize]="pageSize" (pageChange)="onTablePageChange($event)"
+  (approveAction)="approveAction(modalConfirms, $event)" (rejectAction)="rejectAction(modalConfirms, $event)">
 </app-table-common>
+
+<ng-template #modalConfirms>
+  <div>
+    <p>Bạn có chắc chắn muốn 
+      {{ actionType === 'approve' ? 'xác nhận đặt lịch' : 'hủy lịch' }} cho bệnh nhân này không?
+    </p>
+
+    <div class="modal-footer">
+      <button nz-button nzType="primary" (click)="confirmModal()">Cập nhật</button>
+      <button nz-button nzType="default" (click)="closeModal()">Hủy</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HealthRecordService } from '../../../services/patient-service/health-record.service';
-import { UserInformationService } from '../../../services/userInformationService.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import axios from 'axios';
 
 @Component({
   selector: 'app-health-record',
@@ -9,59 +8,67 @@ import { UserInformationService } from '../../../services/userInformationService
 })
 export class HealthRecordComponent implements OnInit {
 
-  tableColumns = [
-    { header: 'Stt', field: 'id', width: '100px' },
-    { header: 'Tên cơ sở', field: 'name', width: '200px' },
-    { header: 'Tên dịch vụ', field: 'email' },
-    { header: 'Tên bác sĩ', field: 'email' },
+  @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  private ctx!: CanvasRenderingContext2D;
+  private shirtImage = new Image();
+  private readonly REMOVE_BG_API_KEY = 'YOUR_REMOVE_BG_API_KEY'; // <-- Thay bằng API Key của bạn
 
-    { header: 'Ngày khám', field: 'email' },
-
-    { header: 'Giá khám', field: 'email' },
-
-    { header: 'Kết luận', field: 'email' },
-
-    { header: 'Phân tích', field: 'email' },
-
-    { header: 'Mức độ sức khỏe', field: 'email' },
-    { header: 'Hành động', field: 'email' },
-
-
-  ];
-
-  tableData = [
-    { id: 1, name: 'Nguyễn Văn A', email: 'a@example.com' },
-    { id: 2, name: 'Trần Thị B', email: 'b@example.com' },
-    { id: 3, name: 'Lê Văn C', email: 'c@example.com' }
-  ];
-
-  totalRecords = this.tableData.length; // Tổng số bản ghi
-
-  userInformation: any;
-
-  constructor(
-    private healthRecordService: HealthRecordService,
-    private userService: UserInformationService,
-  ) { }
-
-  ngOnInit() {
-    this.userInformation = this.userService.getAccount();
-    this.loadProfile()
-
+  ngOnInit(): void {
+    const canvas = this.canvasRef.nativeElement;
+    this.ctx = canvas.getContext('2d')!;
+    this.shirtImage.src = 'assets/images/shirt.png';
   }
 
-  loadProfile() {
-      if (this.userInformation) {
-        this.healthRecordService.getHealthRecord(this.userInformation.id).subscribe({
-          next: (res) => {
-            if (res?.code === 201 && res?.data) {
-              // map dữ liệu
-            }
-          },
-          error: (err: any) => {
-            console.error("Lỗi khi tải hồ sơ:", err);
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+
+    try {
+      const imageWithoutBgBlob = await this.removeBackground(file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          this.ctx.clearRect(0, 0, 300, 400);
+          this.ctx.drawImage(img, 0, 0, 300, 400); // Ảnh đã xóa nền
+
+          // Nếu áo sơ mi đã load
+          if (this.shirtImage.complete) {
+            this.ctx.drawImage(this.shirtImage, 0, 0, 300, 400);
+          } else {
+            this.shirtImage.onload = () => {
+              this.ctx.drawImage(this.shirtImage, 0, 0, 300, 400);
+            };
           }
-        });
-      }
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(imageWithoutBgBlob);
+    } catch (error) {
+      console.error('Xóa nền thất bại:', error);
+      alert('Lỗi xóa nền. Kiểm tra API key hoặc thử lại sau.');
     }
+  }
+
+  private async removeBackground(imageFile: File): Promise<Blob> {
+    const formData = new FormData();
+    formData.append('image_file', imageFile);
+    formData.append('size', 'auto');
+
+    const response = await axios.post(
+      'https://api.remove.bg/v1.0/removebg',
+      formData,
+      {
+        headers: {
+          'X-Api-Key': this.REMOVE_BG_API_KEY,
+        },
+        responseType: 'blob',
+      }
+    );
+
+    return response.data;
+  }
 }

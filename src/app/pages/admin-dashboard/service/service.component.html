@@ -1,7 +1,81 @@
-<app-table-common
-  [columns]="tableColumns"
-  [listOfData]="fullTableData"
-  [totalItems]="totalRecords"
-  [pageSize]="pageSize"
-  (pageChange)="onTablePageChange($event)">
+<div class="title">
+  <label>Quản lý dịch vụ</label>
+</div>
+
+<div class="action-header">
+  <button nz-button nzType="primary" (click)="openModal()">Thêm mới dịch vụ</button>
+</div>
+
+<app-table-common [columns]="tableColumns" [listOfData]="fullTableData" [totalItems]="totalRecords"
+  [pageSize]="pageSize" (pageChange)="onTablePageChange($event)" (updateAction)="openModal($event)"  (deleteAction)="openDeleteModal($event)">
 </app-table-common>
+
+<ng-template #serviceModal>
+  <form [formGroup]="serviceForm" (ngSubmit)="submitServiceForm()">
+    <div class="form-group">
+      <label>Tên dịch vụ:</label>
+      <input nz-input formControlName="name" placeholder="Tên dịch vụ" />
+    </div>
+
+    <div class="form-group">
+      <label>Giá tiền:</label>
+      <input nz-input formControlName="price" placeholder="Giá tiền" />
+    </div>
+
+    <div class="form-group">
+      <label>Mô tả:</label>
+      <input nz-input formControlName="description" placeholder="Mô tả" />
+    </div>
+
+    <div class="form-group">
+      <label>Hình ảnh:</label>
+      <input type="file" #fileInput style="display: none" (change)="handleImageUpload($event)" />
+
+      <div *ngIf="selectedImage; else noImage">
+        <img
+          [src]="selectedImage"
+          alt="Ảnh dịch vụ"
+          style="width: 120px; height: 120px; object-fit: cover; border: 1px solid #ccc; cursor: pointer;"
+          (click)="fileInput.click()"
+        />
+      </div>
+
+      <ng-template #noImage>
+        <button nz-button type="button" (click)="fileInput.click()">Chọn ảnh</button>
+      </ng-template>
+    </div>
+
+    <div class="form-group">
+      <label>Chọn khoa:</label>
+      <nz-select
+        formControlName="facilityac_id"
+        style="width: 100%"
+        placeholder="Chọn khoa"
+      >
+        <nz-option
+          *ngFor="let item of listFacility"
+          [nzValue]="item.id"
+          [nzLabel]="item.facility_name"
+        ></nz-option>
+      </nz-select>
+    </div>
+
+    <div class="modal-footer">
+      <button nz-button nzType="primary" type="submit">
+        {{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}
+      </button>
+      <button nz-button nzType="default" type="button" (click)="closeModal()">Hủy</button>
+    </div>
+  </form>
+</ng-template>
+
+
+<ng-template #confirmDeleteModal let-modal>
+  <div>
+    <p>Bạn có chắc chắn muốn xóa dịch vụ "<strong>{{ serviceToDelete?.name }}</strong>" không?</p>
+  </div>
+  <div class="modal-footer">
+    <button nz-button nzType="default" (click)="modal.destroy()">Hủy</button>
+    <button nz-button nzType="primary" nzDanger (click)="deleteService()">Xác nhận</button>
+  </div>
+</ng-template>

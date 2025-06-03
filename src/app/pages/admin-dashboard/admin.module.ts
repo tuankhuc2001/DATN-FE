@@ -13,6 +13,7 @@ import { MedicineComponent } from './medicine/medicine.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { RevenueComponent } from './revenue/revenue.component'
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
         FacilityComponent,
         ServiceComponent,
         MedicineComponent,
+        RevenueComponent
     ],
     imports: [
         CommonModule,

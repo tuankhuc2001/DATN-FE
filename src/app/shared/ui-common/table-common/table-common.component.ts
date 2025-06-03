@@ -8,12 +8,15 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
 export class TableCommonComponent implements OnInit, OnChanges {
   @Input() columns: { header: string; field: string; width?: string; type?: string[] }[] = []; 
   @Input() listOfData: any[] = [];
+  @Input() element: any;
   @Input() totalItems: number = 0;
   @Input() pageSize: number = 10;
   @Output() pageChange = new EventEmitter<number>(); 
   @Output() updateAction = new EventEmitter<any>(); 
   @Output() deleteAction = new EventEmitter<number>();
   @Output() viewDetailAction = new EventEmitter<any>(); 
+  @Output() approveAction = new EventEmitter<any>(); 
+  @Output() rejectAction = new EventEmitter<any>();
 
 
   pageIndex: number = 1;
@@ -52,6 +55,14 @@ export class TableCommonComponent implements OnInit, OnChanges {
 
   onDelete(id: number) {
     this.deleteAction.emit(id);
+  }
+
+  onApprove(row: any) {
+    this.approveAction.emit(row);
+  }
+
+  onReject(row: any) {
+    this.rejectAction.emit(row);
   }
 
   onViewDetail(data: any) {

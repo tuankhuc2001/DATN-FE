@@ -1,31 +1,40 @@
-<nz-calendar (nzSelectChange)="handleDateClick($event)">
-  <ul *nzDateCell="let date" class="events">
-    <li *ngFor="let event of getListData(date)">
-      <nz-badge [nzStatus]="event.type" [nzText]="event.content"></nz-badge>
-    </li>
-  </ul>
+<div class="title">
+  <label>Lịch khám</label>
+</div>
+
+
+<nz-calendar
+  [(ngModel)]="selectedDate"
+  (nzSelectChange)="handleDateClick($event)"
+>
+  <ng-container *nzDateCell="let date">
+    <ul class="events">
+      <li *ngFor="let event of getListData(date)">
+        <nz-badge [nzText]="event.content" nzStatus="success" (click)="showModalPhysical(event)"></nz-badge>
+      </li>
+    </ul>
+  </ng-container>
 </nz-calendar>
 
-<!-- <nz-modal [(nzVisible)]="isModalVisible" (nzOnCancel)="handleModalClose()" [nzWidth]="'50%'">
-  <ng-container *ngIf="selectedDate">
-    <h2 style="margin-bottom: 20px;">Thông tin ngày {{ selectedDate.format('DD/MM/YYYY') }}:</h2>
-    <nz-table #basicTable [nzBordered]="true" [nzData]="getListData(selectedDate)" [nzPagination]="false">
-      <thead>
-        <tr>
-          <th nzWidth="10%">STT</th>
-          <th nzWidth="30%">Thời gian khám</th>
-          <th nzWidth="60%">Tên bệnh nhân</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of getListData(selectedDate); let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ item.testDate | date: 'HH:mm' }}</td>
-          <td>
-            <a [routerLink]="['/patient', item.patient.id]">{{ item.patient.fullName }}</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
+
+
+<!-- Hiển thị lịch khám trong ngày -->
+<ng-template #viewSchedule>
+  <ng-container *ngIf="selectedEvents && selectedEvents.length > 0; else noSchedule">
+    <p><strong>Ngày khám:</strong> {{ selectedDate | date: 'dd/MM/yyyy' }}</p>
+    <ul>
+      <li *ngFor="let event of selectedEvents">
+        <div (click)="showModalPhysical(event)">
+          <strong >Bệnh nhân:</strong> {{ event.patient?.fullName }} <br />
+          
+        </div>
+        <strong>Ngày khám:</strong> {{ event.testDate | date: 'dd/MM/yyyy' }}
+      </li>
+    </ul>
   </ng-container>
-</nz-modal> -->
+
+  <ng-template #noSchedule>
+    <p><i>Không có lịch khám trong ngày này.</i></p>
+  </ng-template>
+</ng-template>
+

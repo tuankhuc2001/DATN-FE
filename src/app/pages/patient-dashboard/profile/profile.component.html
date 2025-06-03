@@ -1,7 +1,8 @@
-<div>
-  <h2>Thông tin cá nhân</h2>
+<div class="title">
+  <label>Thông tin cá nhân</label>
 </div>
-<div>
+
+<div class="content-main">
   <nz-tabset [nzTabPosition]="'left'">
     <nz-tab nzTitle="Cập nhật thông tin cá nhân">
       <form [formGroup]="profileForm" (ngSubmit)="onSubmitProfile()">
@@ -49,8 +50,9 @@
             <input nz-input formControlName="address" />
           </nz-form-control>
         </nz-form-item>
-  
-        <button nz-button nzType="primary" [disabled]="profileForm.invalid">Cập nhật</button>
+        <div style="width: 100%; display: flex; justify-content: end;"> 
+          <button nz-button nzType="primary" [disabled]="profileForm.invalid || !isProfileChanged()">Cập nhật</button>
+        </div>
       </form>
     </nz-tab>
   
@@ -70,7 +72,10 @@
           </nz-form-control>
         </nz-form-item>
   
-        <button nz-button nzType="primary" [disabled]="passwordForm.invalid">Đổi mật khẩu</button>
+        <div style="width: 100%; display: flex; justify-content: end;">
+          <button nz-button nzType="primary" [disabled]="passwordForm.invalid" st>Đổi mật khẩu</button>
+
+        </div>
       </form>
     </nz-tab>
   </nz-tabset>

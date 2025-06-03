@@ -1,0 +1,86 @@
+/* ====== Tiêu đề chính ====== */
+.title {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1d1d1f;
+}
+
+/* ====== Modal xác nhận/hủy đặt lịch ====== */
+.confirm-modal {
+  padding: 1rem 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ====== Footer trong modal xác nhận/hủy ====== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 1.5rem;
+
+  button {
+    min-width: 110px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:disabled {
+      background-color: #f0f0f0 !important;
+      border: 1px solid #d9d9d9 !important;
+      color: #999 !important;
+      cursor: not-allowed !important;
+    }
+  }
+
+  button[nzType="primary"]:not(:disabled) {
+    background-color: #1890ff;
+    border: 1px solid #1890ff;
+    color: #fff;
+
+    &:hover {
+      background-color: #40a9ff;
+      border-color: #40a9ff;
+    }
+
+    &:focus {
+      background-color: #096dd9;
+      border-color: #096dd9;
+      outline: none;
+    }
+  }
+
+  button[nzType="default"] {
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    color: #333;
+
+    &:hover {
+      background-color: #e6f7ff;
+      border-color: #91d5ff;
+      color: #1890ff;
+    }
+
+    &:focus {
+      background-color: #bae7ff;
+      border-color: #91d5ff;
+      outline: none;
+    }
+  }
+}
+
+/* ====== Responsive cho modal nhỏ màn hình ====== */
+@media (max-width: 768px) {
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .confirm-modal {
+    font-size: 15px;
+  }
+}

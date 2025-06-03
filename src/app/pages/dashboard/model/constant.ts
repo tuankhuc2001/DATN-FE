@@ -7,12 +7,12 @@ export const MENU_ITEMS: MenuItem[] = [
     route: '/dashboard/patient',
     roles: ['PATIENT']
   },
-  {
-    label: 'Quản lý hồ sơ',
-    icon: 'user',
-    route: '/dashboard/health-record',
-    roles: ['PATIENT']
-  },
+  // {
+  //   label: 'Quản lý hồ sơ',
+  //   icon: 'user',
+  //   route: '/dashboard/health-record',
+  //   roles: ['PATIENT']
+  // },
   {
     label: 'Đặt lịch khám',
     icon: 'user',
@@ -34,7 +34,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Lịch khám',
     icon: 'setting',
-    route: '/dashboard/schedule',
+    route: '/dashboard/doctor-schedule',
     roles: ['DOCTOR']
   },
 
@@ -66,7 +66,7 @@ export const MENU_ITEMS: MenuItem[] = [
   },
 
   {
-    label: 'Cơ sở',
+    label: 'Khoa',
     icon: 'dashboard',
     route: '/dashboard/admin/facility',
     roles: ['ADMIN']
@@ -89,7 +89,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Doanh thu',
     icon: 'dashboard',
-    route: '/dashboard/admin',
+    route: '/dashboard/admin/revenue',
     roles: ['ADMIN']
   },
 ];

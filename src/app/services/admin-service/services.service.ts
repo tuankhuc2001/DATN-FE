@@ -8,14 +8,27 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ServicesService {
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getService(): Observable<any> {
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/service`)
   }
 
-    getServiceInFacility(): Observable<any> {
+  getServiceInFacility(): Observable<any> {
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/service/facility`)
+  }
+
+  createService(body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/service`, body)
+  }
+
+  updateService(body: any, id: any): Observable<any> {
+    body.id = id
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/service`, body)
+  }
+
+  deleteService(id: any): Observable<any> {
+    return this.http.delete<any>(`${APP_CONFIG.baseUrl}/service` + `/${id}`)
   }
 
 }

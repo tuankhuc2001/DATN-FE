@@ -109,4 +109,21 @@ export class ProfileDoctorComponent implements OnInit {
       group.get('confirmPassword')?.setErrors({ mismatch: true });
     }
   }
+
+
+   isProfileChanged(): boolean {
+      if (!this.profile || !this.profileForm) return false;
+  
+      const current = this.profileForm.value;
+  
+      return (
+        current.fullName !== this.profile.fullName ||
+        current.email !== this.profile.email ||
+        current.phone !== this.profile.phone ||
+        current.gender?.toLowerCase() !== this.profile.gender?.toLowerCase() ||
+        !dayjs(current.dateOfBirth).isSame(this.profile.dateOfBirth, 'day') ||
+        current.address !== this.profile.address
+      );
+    }
+
 }

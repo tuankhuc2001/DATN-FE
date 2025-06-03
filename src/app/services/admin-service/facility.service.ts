@@ -8,10 +8,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FacilityService {
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getFacility(): Observable<any> {
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/facility`)
+  }
+
+  createFacility(body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/facility`, body)
+  }
+
+  updateFacility(body: any, id: any): Observable<any> {
+    body.id = id
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/facility`, body)
   }
 
 }

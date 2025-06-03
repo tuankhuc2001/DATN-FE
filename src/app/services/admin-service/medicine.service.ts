@@ -14,9 +14,17 @@ constructor(private http: HttpClient) { }
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/medicine`)
   }
 
-  updateMedicine(id: number, body: any): Observable<any> {
-    return this.http.post<any>(`${APP_CONFIG.baseUrl}/medicine/${id}`, body)
+    createMedicine(body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/medicine`, body)
 
   }
 
+  updateMedicine(id: number, body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/medicine`, body)
+
+  }
+
+  deleteMedicine(id: number) {
+  return this.http.delete<any>(`${APP_CONFIG.baseUrl}/medicine/${id}`);
+}
 }

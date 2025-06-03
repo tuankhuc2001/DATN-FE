@@ -1,4 +1,5 @@
-<nz-table class="table" #basicTable [nzData]="displayData" [nzBordered]="true" [nzSize]="'middle'" [nzShowPagination]="false">
+<nz-table class="custom-table" #basicTable [nzData]="displayData" [nzBordered]="true" [nzSize]="'middle'"
+  [nzShowPagination]="false">
   <thead>
     <tr>
       <th *ngFor="let col of columns" [nzWidth]="col.width!">{{ col.header }}</th>
@@ -6,24 +7,46 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of displayData">
-      <td *ngFor="let col of columns" [ngClass]="'col-' + col.field">
-        <!-- Kiểm tra nếu là cột hành động thì render button -->
-        <ng-container *ngIf="col.field === 'action'; else normalData">
-          <span *ngIf="col.type?.includes('view')" class="material-icons" (click)="onViewDetail(data)">visibility</span>
-          <button *ngIf="col.type?.includes('update')" nz-button nzType="primary" nzSize="small" (click)="onUpdate(data)">Cập nhật</button>
-          <button *ngIf="col.type?.includes('delete')" nz-button nzType="default" nzSize="small" nzDanger (click)="onDelete(data.id)">Xóa</button>
+      <td *ngFor="let col of columns" [ngClass]="{ 'col-action': col.field === 'action' }">
+        <!-- Nếu là cột hành động -->
+        <ng-container *ngIf="col.field === 'action'; else normalCell">
+          <div class="action-wrapper">
+            <span *ngIf="col.type?.includes('view')" class="material-icons"
+              (click)="onViewDetail(data)">visibility</span>
+            <button *ngIf="col.type?.includes('update')" nz-button nzType="primary" nzSize="small"
+              (click)="onUpdate(data)">
+              Cập nhật
+            </button>
+            <button *ngIf="col.type?.includes('delete')" nz-button nzType="default" nzSize="small" nzDanger
+              (click)="onDelete(data.id)">
+              Xóa
+            </button>
+            <button *ngIf="col.type?.includes('approve') && data.status === 'CONFIRM'" nz-button nzType="primary"
+              nzSize="small" (click)="onApprove(data)">
+              Duyệt
+            </button>
+            <button *ngIf="col.type?.includes('reject') && data.status === 'CONFIRM'" nz-button nzType="default"
+              nzSize="small" nzDanger (click)="onReject(data)">
+              Từ chối
+            </button>
+          </div>
         </ng-container>
-        <ng-template #normalData>
-          {{ data[col.field] }}
+
+        <!-- Nếu không phải cột hành động -->
+        <ng-template #normalCell>
+          <ng-container *ngIf="col.field === 'image'; else normalText">
+            <img *ngIf="data[col.field]" [src]="data[col.field]" alt="Ảnh dịch vụ" class="service-img" />
+          </ng-container>
+          <ng-template #normalText>
+            {{ data[col.field] }}
+          </ng-template>
         </ng-template>
       </td>
     </tr>
   </tbody>
 </nz-table>
 
-<!-- Phân trang nằm bên ngoài -->
 <div class="footer">
   <nz-pagination [nzPageSize]="pageSize" [nzTotal]="totalItems" [(nzPageIndex)]="pageIndex"
-    (nzPageIndexChange)="onPageChange($event)">
-  </nz-pagination>
+    (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
 </div>

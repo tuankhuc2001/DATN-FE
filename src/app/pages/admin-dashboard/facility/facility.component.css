@@ -1,0 +1,176 @@
+/* ====== Tiêu đề chính ====== */
+.title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1d1d1f;
+}
+
+/* ====== Header chứa nút thêm mới ====== */
+.action-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.25rem;
+
+  button[nz-button] {
+    min-width: 110px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    background-color: #1890ff;
+    border: 1px solid #1890ff;
+    color: #fff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background-color: #40a9ff;
+      border-color: #40a9ff;
+    }
+
+    &:focus {
+      background-color: #096dd9;
+      border-color: #096dd9;
+      outline: none;
+    }
+
+    &:disabled {
+      background-color: #f0f0f0 !important;
+      color: #999 !important;
+      cursor: not-allowed !important;
+      border: 1px solid #d9d9d9 !important;
+    }
+  }
+}
+
+/* ====== Nhóm form ====== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+  }
+
+  input[nz-input],
+  ::ng-deep .ant-input,
+  ::ng-deep .ant-select-selector,
+  ::ng-deep .ant-picker {
+    width: 100%;
+    height: 38px !important;
+    font-size: 14px;
+    border-radius: 6px !important;
+    border: 1px solid #d9d9d9 !important;
+    box-shadow: none !important;
+    padding: 0 11px;
+    display: flex;
+    align-items: center;
+  }
+
+  input[nz-input]:hover,
+  ::ng-deep .ant-input:hover,
+  ::ng-deep .ant-select-selector:hover,
+  ::ng-deep .ant-picker:hover {
+    border-color: #40a9ff !important;
+  }
+
+  input[nz-input]:focus,
+  ::ng-deep .ant-input:focus,
+  ::ng-deep .ant-picker-focused,
+  ::ng-deep .ant-select-focused .ant-select-selector {
+    border-color: #40a9ff !important;
+    outline: none;
+  }
+}
+
+/* ====== Footer trong modal ====== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 1.5rem;
+
+  button[nz-button] {
+    min-width: 110px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:disabled {
+      background-color: #f0f0f0 !important;
+      border: 1px solid #d9d9d9 !important;
+      color: #999 !important;
+      cursor: not-allowed !important;
+    }
+  }
+
+  button[nzType="primary"]:not(:disabled) {
+    background-color: #1890ff;
+    border: 1px solid #1890ff;
+    color: #fff;
+
+    &:hover {
+      background-color: #40a9ff;
+      border-color: #40a9ff;
+    }
+
+    &:focus {
+      background-color: #096dd9;
+      border-color: #096dd9;
+      outline: none;
+    }
+  }
+
+  button[nzType="default"] {
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    color: #333;
+
+    &:hover {
+      background-color: #e6f7ff;
+      border-color: #91d5ff;
+      color: #1890ff;
+    }
+
+    &:focus {
+      background-color: #bae7ff;
+      border-color: #91d5ff;
+      outline: none;
+    }
+  }
+}
+
+/* ====== Dấu hiệu bắt buộc và lỗi ====== */
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+.has-error input,
+.has-error nz-select,
+.has-error nz-date-picker {
+  border-color: red !important;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  .action-header {
+    justify-content: center;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

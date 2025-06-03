@@ -1,7 +1,48 @@
+<div class="title">
+  <label>Quản lý khoa</label>
+</div>
+
+<div class="action-header">
+  <button nz-button nzType="primary" (click)="openCreateModal(facilityModal)">Thêm mới khoa</button>
+</div>
+
 <app-table-common
   [columns]="tableColumns"
   [listOfData]="fullTableData"
   [totalItems]="totalRecords"
   [pageSize]="pageSize"
-  (pageChange)="onTablePageChange($event)">
+  (pageChange)="onTablePageChange($event)"
+  (updateAction)="openEditModal($event, facilityModal)">
 </app-table-common>
+
+<!-- Modal dùng chung -->
+<ng-template #facilityModal>
+  <form [formGroup]="facilityForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+      <label>Tên khoa:</label>
+      <input nz-input formControlName="facility_name" placeholder="Tên khoa" />
+    </div>
+
+    <div class="form-group">
+      <label>Mã khoa:</label>
+      <input nz-input formControlName="code" placeholder="Mã khoa" />
+    </div>
+
+    <div class="form-group">
+      <label>Mô tả:</label>
+      <input nz-input formControlName="description" placeholder="Mô tả" />
+    </div>
+
+    <div class="form-group">
+      <label>Liên hệ:</label>
+      <input nz-input formControlName="phone" placeholder="Số điện thoại" />
+    </div>
+
+    <div class="modal-footer">
+      <button nz-button nzType="primary" type="submit">
+        {{ isEditMode ? 'Cập nhật' : 'Thêm mới' }}
+      </button>
+      <button nz-button nzType="default" type="button" (click)="closeModal()">Hủy</button>
+    </div>
+  </form>
+</ng-template>

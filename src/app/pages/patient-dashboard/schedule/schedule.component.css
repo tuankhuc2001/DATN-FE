@@ -1,27 +1,203 @@
+/* ==== Tổng thể bố cục ==== */
+:host {
+  display: block;
+  background-color: #fff;
+  /* padding: 24px; */
+  min-height: 100vh;
+}
+
+.title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* ==== Select dropdown ==== */
+nz-select {
+  width: 300px;
+  /* margin-bottom: 20px; */
+}
+
+/* ==== Danh sách dịch vụ cuộn ==== */
+.service-list-container {
+  margin-top: 20px;
+  max-height: 720px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* ==== Layout card sử dụng flex và responsive ==== */
 nz-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Khoảng cách giữa các card */
+  gap: 16px;
 }
+
 nz-col {
-  flex: 1 1 calc(25% - 16px); /* 4 card/row, trừ đi khoảng cách */
+  flex: 1 1 calc(25% - 16px);
   max-width: calc(25% - 16px);
+  margin-bottom: 16px;
 }
+
 @media (max-width: 1200px) {
   nz-col {
-    flex: 1 1 calc(33.33% - 16px); /* 3 card/row */
+    flex: 1 1 calc(33.33% - 16px);
     max-width: calc(33.33% - 16px);
   }
 }
+
 @media (max-width: 768px) {
   nz-col {
-    flex: 1 1 calc(50% - 16px); /* 2 card/row */
+    flex: 1 1 calc(50% - 16px);
     max-width: calc(50% - 16px);
   }
 }
+
 @media (max-width: 480px) {
   nz-col {
-    flex: 1 1 100%; /* 1 card/row */
+    flex: 1 1 100%;
     max-width: 100%;
   }
+}
+
+/* ==== Card dịch vụ ==== */
+nz-card {
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+nz-card:hover {
+  transform: translateY(-4px);
+  border-color: #1890ff;
+}
+
+nz-card-meta {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+nz-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  margin-top: 15px;
+  border-radius: 4px;
+}
+
+nz-card p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* ==== Modal đặt lịch ==== */
+.ant-modal-body {
+  padding: 24px;
+}
+
+/* ==== Form input & textarea ==== */
+.form-row {
+  margin-bottom: 16px;
+}
+
+input.form-control,
+textarea.form-control {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  outline: none;
+}
+
+/* ==== Giao diện đồng bộ các component của ng-zorro ==== */
+::ng-deep input[nz-input],
+::ng-deep nz-date-picker,
+::ng-deep nz-select,
+::ng-deep nz-radio-group {
+  width: 100% !important;
+  border-radius: 6px !important;
+  height: 38px !important;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+::ng-deep .select-facility {
+  width: 50% !important;
+}
+
+::ng-deep textarea[nz-input] {
+    width: 100% !important;
+  border-radius: 6px !important;
+  height:  10px !important;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+::ng-deep .ant-select-selector,
+::ng-deep .ant-picker {
+  height: 38px !important;
+  display: flex;
+  align-items: center;
+  border-radius: 6px !important;
+}
+
+::ng-deep .ant-select-focused .ant-select-selector,
+::ng-deep .ant-picker-focused {
+  border-color: #40a9ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* ==== Textarea nhỏ gọn ==== */
+textarea.form-control {
+  resize: vertical;
+  min-height: 10px;
+}
+
+/* ==== Form item dùng cho label và controls ==== */
+nz-form-item {
+  margin-bottom: 16px;
+}
+
+nz-form-label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+/* ==== Nút hành động ==== */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button[nz-button] {
+  border-radius: 6px;
+  height: 38px;
+  font-size: 14px;
+  min-width: 100px;
+}
+
+.form-actions button + button {
+  margin-left: 12px;
 }

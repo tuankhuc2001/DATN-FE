@@ -14,4 +14,17 @@ export class DoctorService {
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/schedule` + `/${id}`)
   }
 
+    addPrescription(id: number, body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/prescription` + `/${id}` , body)
+  }
+
+  addResult(id: number, body: any): Observable<any> {
+    return this.http.post<any>(`${APP_CONFIG.baseUrl}/result` + `/${id}` , body)
+  }
+
+  submitResult(id: number): Observable<any> {
+    return this.http.patch<any>(`${APP_CONFIG.baseUrl}/order` + `/${id}` + `/DONE`, null)
+  }
+  
+
 }

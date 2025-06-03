@@ -7,6 +7,7 @@ import { OrderComponent } from './order/order.component';
 import { FacilityComponent } from './facility/facility.component';
 import { ServiceComponent } from './service/service.component';
 import { MedicineComponent } from './medicine/medicine.component';
+import { RevenueComponent } from './revenue/revenue.component';
 
 const routes: Routes = [
     {
@@ -36,6 +37,10 @@ const routes: Routes = [
     {
       path: 'medicine',
       component: MedicineComponent,
+    },
+        {
+      path: 'revenue',
+      component: RevenueComponent,
     },
 
 ]

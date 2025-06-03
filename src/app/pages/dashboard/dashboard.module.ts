@@ -26,6 +26,10 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzListModule } from 'ng-zorro-antd/list';
+
+
 
 import { ProfilePatientComponent } from '../patient-dashboard/profile/profile.component';
 import { HistoryComponent } from '../patient-dashboard/history/history.component';
@@ -36,6 +40,7 @@ import { ScheduleComponent } from '../docter-dashboard/schedule/schedule.compone
 import { HealthRecordComponent } from '../patient-dashboard/health-record/health-record.component';
 import { UiCommonModule } from '../../shared/ui-common/ui-common.module';
 import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule.component';
+import { ModalPhysicalExaminationComponent } from '../docter-dashboard/schedule/modal-physical-examination/modal-physical-examination.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +56,7 @@ import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule
     //Doctor
     ProfileDoctorComponent,
     ScheduleComponent,
+    ModalPhysicalExaminationComponent,
 
 
 
@@ -83,7 +89,9 @@ import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule
     NzPaginationModule,
     NzInputModule,
     NzCardModule,
-    NzSelectModule
+    NzSelectModule,
+    NzListModule,
+    NzDescriptionsModule
   ]
 })
 export class DashboardModule { }

@@ -1,0 +1,45 @@
+<div class="title">
+  <label>Thống kê doanh thu dịch vụ</label>
+</div>
+
+<div class="filter-row">
+  <div class="filter-group">
+    <label>Chọn tháng:</label>
+    <nz-select
+      [formControl]="monthControl"
+      style="width: 120px"
+      nzPlaceHolder="Chọn tháng">
+      <nz-option
+        *ngFor="let month of monthList"
+        [nzValue]="month.value"
+        [nzLabel]="month.label"
+        [nzDisabled]="isFutureMonth(month.value)">
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <div class="filter-group">
+    <label>Chọn năm:</label>
+    <nz-select
+      [formControl]="yearControl"
+      style="width: 120px"
+      nzPlaceHolder="Chọn năm">
+      <nz-option
+        *ngFor="let year of yearList"
+        [nzValue]="year"
+        [nzLabel]="year">
+      </nz-option>
+    </nz-select>
+  </div>
+</div>
+
+<app-table-common
+  [columns]="revenueColumns"
+  [listOfData]="revenueData"
+  [totalItems]="revenueData.length"
+  [pageSize]="10">
+</app-table-common>
+
+<div class="total-revenue">
+  <strong>Tổng doanh thu:</strong> {{ totalRevenue | number }} VNĐ
+</div>

@@ -4,32 +4,123 @@
 
 <nz-collapse nzAccordion>
   @for (panel of panels; track panel) {
-    <nz-collapse-panel [nzHeader]="panelHeaderTemplate" [nzActive]="panel.active" [nzDisabled]="panel.disabled">
-      <nz-tabset [nzTabPosition]="'left'">
-        <nz-tab nzTitle="Thông tin">
-          
-        </nz-tab>
-      
-        <nz-tab nzTitle="Kết quả">
-          
-        </nz-tab>
+  <nz-collapse-panel [nzHeader]="panelHeaderTemplate" [nzActive]="panel.active" [nzDisabled]="panel.disabled">
+    <nz-tabset [nzTabPosition]="'left'">
 
-        <nz-tab nzTitle="Toa thuốc">
-          
-        </nz-tab>
-      </nz-tabset>
-    </nz-collapse-panel>
+      <!-- Tab Thông tin -->
+      <nz-tab nzTitle="Thông tin">
+        <div class="info-card">
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Ngày khám:</strong> {{ panel.orderDetail.testDate | date:"hh:mm:ss - dd/MM/yyyy" }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>Ngày tạo:</strong> {{ panel.orderDetail.createdAt | date:"hh:mm:ss - dd/MM/yyyy" }}</p>
+            </nz-col>
+          </nz-row>
 
-    <ng-template #panelHeaderTemplate>
-      <div class="custom-header">
-        <span>{{ panel.name }}</span>
-        <nz-tag *ngIf="panel.status" [nzColor]="panel.status | statusColor">
-          {{ panel.status | statusLabel }}
-        </nz-tag>
-      </div>
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Tên bệnh nhân:</strong> {{ panel.orderDetail.patient.fullName }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>Giới tính:</strong> {{ panel.orderDetail.patient.gender }}</p>
+            </nz-col>
+          </nz-row>
+
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Ngày sinh:</strong> {{ panel.orderDetail.patient.dateOfBirth }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>SĐT:</strong> {{ panel.orderDetail.patient.phone }}</p>
+            </nz-col>
+          </nz-row>
+
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Email:</strong> {{ panel.orderDetail.patient.email }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>Địa chỉ:</strong> {{ panel.orderDetail.patient.address }}</p>
+            </nz-col>
+          </nz-row>
+
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Bác sĩ:</strong> {{ panel.orderDetail.doctor.fullName }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>Dịch vụ:</strong> {{ panel.orderDetail.doctor.service.name }}</p>
+            </nz-col>
+          </nz-row>
+
+          <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+              <p><strong>Khoa:</strong> {{ panel.orderDetail.doctor.service.facility.facility_name }}</p>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+              <p><strong>Ghi chú:</strong> {{ panel.orderDetail.note }}</p>
+            </nz-col>
+          </nz-row>
+        </div>
+      </nz-tab>
+
+      <!-- Tab Toa thuốc -->
+      <nz-tab *ngIf="panel.orderDetail.prescription?.prescriptionItems?.length" nzTitle="Toa thuốc">
+        <ul class="medicine-list">
+          <li *ngFor="let item of panel.orderDetail.prescription.prescriptionItems">
+            <strong>Thuốc:</strong> {{ item.medicine.name }} |
+            <strong>Số lượng:</strong> {{ item.quantity }} |
+            <strong>Cách dùng:</strong> {{ item.times }}
+          </li>
+        </ul>
+      </nz-tab>
+      <!-- Tab Kết quả -->
+      <nz-tab *ngIf="panel.orderDetail.results?.length" nzTitle="Kết quả">
+        <nz-card nzTitle="Kết quả" style="margin: 20px 0">
+          <nz-descriptions nzBordered [nzColumn]="1">
+            <nz-descriptions-item *ngFor="let item of panel.orderDetail.results"
+              [nzTitle]="panel.orderDetail.doctor.service.name">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-select [disabled]="true" [(ngModel)]="item.level" nzPlaceHolder="Chọn mức độ">
+                    <nz-option nzValue="GOOD" nzLabel="Tốt"></nz-option>
+                    <nz-option nzValue="NORMAL" nzLabel="Trung bình"></nz-option>
+                    <nz-option nzValue="ALARM" nzLabel="Yếu"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item style="margin-top: 12px;">
+                <nz-form-control>
+                  <input nz-input [disabled]="true" [(ngModel)]="item.value" placeholder="Phân tích" />
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item style="margin-top: 12px;">
+                <nz-form-control>
+                  <input nz-input [disabled]="true" [(ngModel)]="item.comment" placeholder="Kết luận" />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-card>
+      </nz-tab>
+
+    </nz-tabset>
+  </nz-collapse-panel>
+
+  <ng-template #panelHeaderTemplate>
+    <div class="custom-header">
+      <span>{{ panel.name }}</span>
+      <nz-tag *ngIf="panel.status" [nzColor]="panel.status | statusColor">
+        {{ panel.status | statusLabel }}
+      </nz-tag>
       @if(panel.status === "CONFIRM") {
-        <button (click)="openCancelModal(panel.id, $event)">hủy</button>
+      <button (click)="openCancelModal(panel.id, $event)">Hủy</button>
       }
-    </ng-template>
+    </div>
+  </ng-template>
   }
 </nz-collapse>

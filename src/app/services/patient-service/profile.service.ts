@@ -15,7 +15,7 @@ export class ProfileService {
   }
 
   updateProfile(request: any): Observable<any> {
-    return this.http.put<any>(`${APP_CONFIG.baseUrl}/profile`, {request})
+    return this.http.put<any>(`${APP_CONFIG.baseUrl}/profile`, request)
   }
 
   updatePassword(id: number, newPassword: string): Observable<any> {

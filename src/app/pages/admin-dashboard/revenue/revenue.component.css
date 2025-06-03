@@ -1,0 +1,25 @@
+/* Tiêu đề trang */
+.title {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.filter-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.total-revenue {
+  margin-top: 1rem;
+  font-size: 16px;
+  font-weight: bold;
+}

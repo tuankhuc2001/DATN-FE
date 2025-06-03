@@ -11,7 +11,15 @@ export class OrderService {
 constructor(private http: HttpClient) { }
 
   getOrder(): Observable<any> {
-    return this.http.get<any>(`${APP_CONFIG.baseUrl}src/app/services/admin-service/order.service.ts`)
+    return this.http.get<any>(`${APP_CONFIG.baseUrl}/order`)
+  }
+
+    getOrderDetail(orderId: any): Observable<any> {
+    return this.http.get<any>(`${APP_CONFIG.baseUrl}/order-detail` + `/${orderId}`)
+  }
+
+  confirmOrder(id: number, type: string): Observable<any> {
+    return this.http.patch<any>(`${APP_CONFIG.baseUrl}/order/${id}/${type === "approve" ? "IN_PROCESS" : "REJECT"}`, null)
   }
 
 }

@@ -8,6 +8,7 @@ import { ProfileDoctorComponent } from '../docter-dashboard/profile/profile.comp
 import { ScheduleComponent } from '../docter-dashboard/schedule/schedule.component';
 import { HealthRecordComponent } from '../patient-dashboard/health-record/health-record.component';
 import { ScheduleServiceComponent } from '../patient-dashboard/schedule/schedule.component';
+import { ModalPhysicalExaminationComponent } from '../docter-dashboard/schedule/modal-physical-examination/modal-physical-examination.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,9 @@ const routes: Routes = [
 
       //doctor
       { path: 'doctor', component: ProfileDoctorComponent, },
-      { path: 'schedule', component: ScheduleComponent, },
+      { path: 'doctor-schedule', component: ScheduleComponent, },
+      { path: 'modal-physical-examination', component: ModalPhysicalExaminationComponent, },
+
 
       {
         path: 'admin',

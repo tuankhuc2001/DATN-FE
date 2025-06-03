@@ -50,14 +50,14 @@ export class ProfilePatientComponent implements OnInit {
         next: (res) => {
           if (res?.code === 201 && res?.data) {
             this.profile = res.data;
-  
+
             this.profile.dateOfBirth = dayjs(this.profile.dateOfBirth).toDate();
-  
+
             this.profileForm.patchValue({
               fullName: this.profile.fullName,
               email: this.profile.email,
               phone: this.profile.phone,
-              gender: this.profile.gender.toLowerCase(), // Chuyển về chữ thường để match với radio button
+              gender: this.profile.gender.toLowerCase(),
               dateOfBirth: this.profile.dateOfBirth,
               address: this.profile.address
             });
@@ -69,37 +69,38 @@ export class ProfilePatientComponent implements OnInit {
       });
     }
   }
-  
 
-  onSubmitProfile(){
+  onSubmitProfile() {
     const values = { ...this.profileForm.value };
+    values.gender = values.gender.toUpperCase()
+    values.accountStatus = "ACTIVE"
     values.dateOfBirth = dayjs(values.dateOfBirth).format('DD/MM/YYYY');
     values.id = this.userInformation.id;
 
-    console.log(values, 'values');
-    
     this.profileService.updateProfile(values).subscribe({
       next: (res) => {
         this.notificationService.success(StatusResponse.SUCCESS, res.data.message);
-
+        this.loadProfile(); // load lại profile mới sau khi cập nhật
       },
-      error: (err) => {}
+      error: (err) => {
+        console.error("Lỗi khi cập nhật hồ sơ:", err);
+      }
     });
   }
 
   onChangePassword() {
-    const values = this.passwordForm.value.confirmPassword;
-    const idUser = this.userInformation.id
+    const confirmPassword = this.passwordForm.value.confirmPassword;
+    const idUser = this.userInformation.id;
 
-    this.profileService.updatePassword(idUser,values).subscribe({
+    this.profileService.updatePassword(idUser, confirmPassword).subscribe({
       next: (res) => {
         this.passwordForm.reset();
         this.notificationService.success(StatusResponse.SUCCESS, res.data.message);
-
       },
-      error: (err) => {}
+      error: (err) => {
+        console.error("Lỗi khi cập nhật mật khẩu:", err);
+      }
     });
-
   }
 
   private passwordMatchValidator(group: FormGroup): void {
@@ -108,5 +109,23 @@ export class ProfilePatientComponent implements OnInit {
     if (newPassword !== confirmPassword) {
       group.get('confirmPassword')?.setErrors({ mismatch: true });
     }
+  }
+
+  /**
+   * Hàm kiểm tra nếu form đã có thay đổi so với dữ liệu gốc
+   */
+  isProfileChanged(): boolean {
+    if (!this.profile || !this.profileForm) return false;
+
+    const current = this.profileForm.value;
+
+    return (
+      current.fullName !== this.profile.fullName ||
+      current.email !== this.profile.email ||
+      current.phone !== this.profile.phone ||
+      current.gender?.toLowerCase() !== this.profile.gender?.toLowerCase() ||
+      !dayjs(current.dateOfBirth).isSame(this.profile.dateOfBirth, 'day') ||
+      current.address !== this.profile.address
+    );
   }
 }

@@ -1,0 +1,166 @@
+<nz-tabset nzTabPosition="left">
+
+  <nz-tab nzTitle="Thông tin">
+  <div class="info-card">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Ngày khám:</strong> {{ orderDetail.testDate | date:"hh:mm:ss - dd/MM/yyyy" }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>Ngày tạo:</strong> {{ orderDetail.createdAt | date:"hh:mm:ss - dd/MM/yyyy" }}</p>
+      </nz-col>
+    </nz-row>
+
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Tên bệnh nhân:</strong> {{ orderDetail.patient.fullName }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>Giới tính:</strong> {{ orderDetail.patient.gender }}</p>
+      </nz-col>
+    </nz-row>
+
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Ngày sinh:</strong> {{ orderDetail.patient.dateOfBirth }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>SĐT:</strong> {{ orderDetail.patient.phone }}</p>
+      </nz-col>
+    </nz-row>
+
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Email:</strong> {{ orderDetail.patient.email }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>Địa chỉ:</strong> {{ orderDetail.patient.address }}</p>
+      </nz-col>
+    </nz-row>
+
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Bác sĩ:</strong> {{ orderDetail.doctor.fullName }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>Dịch vụ:</strong> {{ orderDetail.doctor.service.name }}</p>
+      </nz-col>
+    </nz-row>
+
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <p><strong>Khoa:</strong> {{ orderDetail.doctor.service.facility.facility_name }}</p>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <p><strong>Ghi chú:</strong> {{ orderDetail.note }}</p>
+      </nz-col>
+    </nz-row>
+  </div>
+</nz-tab>
+
+
+  <nz-tab nzTitle="Toa thuốc">
+  <form [formGroup]="prescriptionForm">
+    <div formArrayName="prescriptionItems">
+      <div *ngFor="let item of prescriptionItems.controls; let i = index" [formGroupName]="i" class="prescription-group">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzRequired>Thuốc</nz-form-label>
+          <nz-form-control [nzSpan]="18" [nzErrorTip]="'Vui lòng chọn thuốc'">
+            <nz-select formControlName="medicineId" nzPlaceHolder="Chọn thuốc">
+              <nz-option *ngFor="let med of medicineList" [nzValue]="med.id" [nzLabel]="med.name"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzRequired>Số lượng</nz-form-label>
+          <nz-form-control [nzSpan]="18" [nzErrorTip]="'Số lượng phải lớn hơn 0'">
+            <input nz-input formControlName="quantity" type="number" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">Cách dùng</nz-form-label>
+          <nz-form-control [nzSpan]="18">
+            <input nz-input formControlName="times" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- Nút xóa thuốc nằm dưới mỗi nhóm -->
+        <div class="remove-button-wrapper">
+          <button
+            nz-button
+            nzType="default"
+            nzDanger
+            (click)="removePrescriptionItem(i)"
+            type="button">
+            Xóa thuốc này
+          </button>
+        </div>
+      </div>
+
+      <!-- Nút thêm thuốc -->
+      <div class="add-medicine-button">
+        <button nz-button nzType="dashed" (click)="addPrescriptionItem()" type="button">+ Thêm thuốc</button>
+      </div>
+    </div>
+
+    <div class="submit-button-wrapper">
+      <button nz-button nzType="primary" [disabled]="disablePrescription" (click)="submitPrescription()" type="button">Lưu toa thuốc</button>
+    </div>
+  </form>
+</nz-tab>
+
+  <!-- Tab Kết quả -->
+  <nz-tab nzTitle="Kết quả">
+    <nz-card nzTitle="Kết quả" style="margin: 20px 0">
+      <nz-descriptions nzBordered [nzColumn]="1">
+        <nz-descriptions-item *ngFor="let item of orderDetail?.results; let index = index" [nzTitle]="orderDetail?.doctor?.service?.name">
+          <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="24">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-select [disabled]="disableEdit" [(ngModel)]="item.level" (ngModelChange)="handleOnChangeResult($event, index, 'level')" nzPlaceHolder="Chọn mức độ">
+                    <nz-option nzValue="GOOD" nzLabel="Tốt"></nz-option>
+                    <nz-option nzValue="NORMAL" nzLabel="Trung bình"></nz-option>
+                    <nz-option nzValue="ALARM" nzLabel="Yếu"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row style="margin: 20px 0">
+            <div nz-col [nzSpan]="24">
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [disabled]="disableEdit" [(ngModel)]="item.value" (ngModelChange)="handleOnChangeResult($event, index, 'value')" placeholder="Phân tích" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <div nz-row>
+            <div nz-col [nzSpan]="24">
+              <nz-form-item>
+                <nz-form-control>
+                  <input nz-input [disabled]="disableEdit" [(ngModel)]="item.comment" (ngModelChange)="handleOnChangeResult($event, index, 'comment')" placeholder="Kết luận" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <div nz-row style="justify-content: flex-end; margin-top: 20px" *ngIf="!disableEdit">
+        <button nz-button nzType="primary" (click)="handleSubmitAll()" type="button">Lưu kết quả</button>
+      </div>
+    </nz-card>
+  </nz-tab>
+</nz-tabset>
+
+<!-- Nút hoàn thành (ngoài tab) -->
+<div style="margin-top: 24px; text-align: right;">
+  <button nz-button nzType="default" (click)="back()" style="margin-right: 10px;">Quay lại</button>
+  <button nz-button nzType="primary" (click)="handleComplete()" type="button">Hoàn thành</button>
+</div>
