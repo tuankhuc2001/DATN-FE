@@ -7,16 +7,16 @@ import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-doctor-manage',
-  templateUrl: './doctor-manage.component.html', 
+  templateUrl: './doctor-manage.component.html',
   styleUrls: ['./doctor-manage.component.css']
 })
 export class DoctorManageComponent implements OnInit {
 
-    createAccountDoctorForm!: FormGroup;
-      modalRef!: NzModalRef;
-    serviceOptions: { label: string, value: number }[] = [];
+  createAccountDoctorForm!: FormGroup;
+  modalRef!: NzModalRef;
+  serviceOptions: { label: string, value: number }[] = [];
 
-  
+
 
   tableColumns = [
     { header: 'STT', field: 'stt', width: '60px' },
@@ -34,23 +34,23 @@ export class DoctorManageComponent implements OnInit {
 
   constructor(
     private doctorManageService: DoctorManageService,
-        private modal: NzModalService,
-      private fb: FormBuilder,
-      private servicesService: ServicesService
-  ) {}
+    private modal: NzModalService,
+    private fb: FormBuilder,
+    private servicesService: ServicesService
+  ) { }
 
   ngOnInit() {
     this.fetchPatients();
     this.fetchService()
-      this.createAccountDoctorForm = this.fb.group({
-    fullName: [''],
-    email: [''],
-    phone: [''],
-    gender: [''],
-    dateOfBirth: [null],
-    service_id: [''],
-    address: ['']
-  });   
+    this.createAccountDoctorForm = this.fb.group({
+      fullName: [''],
+      email: [''],
+      phone: [''],
+      gender: [''],
+      dateOfBirth: [null],
+      service_id: [''],
+      address: ['']
+    });
   }
 
   fetchPatients() {
@@ -62,7 +62,7 @@ export class DoctorManageComponent implements OnInit {
             stt: index + 1
           }));
           console.log(this.fullTableData, 'this.fullTableData');
-          
+
           this.totalRecords = this.fullTableData.length;
         }
       },
@@ -80,12 +80,12 @@ export class DoctorManageComponent implements OnInit {
     });
   }
 
-   submitUpdate() {
+  submitUpdate() {
     if (this.createAccountDoctorForm.valid) {
       const body = this.createAccountDoctorForm.value;
-          if (body.dateOfBirth) {
-      body.dateOfBirth = dayjs(body.dateOfBirth).format('DD/MM/YYYY');
-    };
+      if (body.dateOfBirth) {
+        body.dateOfBirth = dayjs(body.dateOfBirth).format('DD/MM/YYYY');
+      };
       body.accountType = "DOCTOR";
       this.doctorManageService.createAccountDoctor(body).subscribe({
         next: () => {
@@ -106,14 +106,14 @@ export class DoctorManageComponent implements OnInit {
     }
   }
 
-    fetchService() {
-this.servicesService.getService().subscribe({
+  fetchService() {
+    this.servicesService.getService().subscribe({
       next: (res) => {
         if (res?.code === 200 && res?.data) {
           this.serviceOptions = res.data.map((service: any) => ({
-          label: service.name,
-          value: service.id
-        }));
+            label: service.name,
+            value: service.id
+          }));
         }
       },
       error: (err: any) => {
@@ -122,7 +122,7 @@ this.servicesService.getService().subscribe({
     });
   }
 
-    closeModal() {
+  closeModal() {
     if (this.modalRef) {
       this.modalRef.destroy();
     }

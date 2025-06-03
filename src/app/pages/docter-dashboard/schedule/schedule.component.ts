@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import dayjs from 'dayjs';
 import { IScheduleEvent } from '../models/interface';
 import { DoctorService } from '../../../services/doctor-service/doctor.service';
 import { UserInformationService } from '../../../services/userInformationService.service';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-schedule',
@@ -12,13 +13,16 @@ import { UserInformationService } from '../../../services/userInformationService
 export class ScheduleComponent implements OnInit {
   schedule: IScheduleEvent[] = [];
   selectedDate: dayjs.Dayjs | null = null;
-  isModalVisible = false;
+  selectedEvents: any[] = [];
+  modalRef!: NzModalRef;
   userInformation: any;
 
+  @ViewChild('viewSchedule', { static: true }) viewScheduleTemplate!: TemplateRef<any>;
+
   constructor(
-    // private modal: NzModalService,
     private userService: UserInformationService,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
+    private modal: NzModalService
   ) { }
 
   ngOnInit(): void {
@@ -29,55 +33,64 @@ export class ScheduleComponent implements OnInit {
   fetchSchedule(): void {
     this.doctorService.getMedicalAppointment(this.userInformation.id).subscribe({
       next: (res) => {
-        console.log(res, 'this.res');
-
         if (res?.code === 200 && res?.data) {
-          this.schedule = res.data
+          this.schedule = res.data;
         }
       },
       error: (err: any) => {
-        console.error("Lỗi khi tải hồ sơ:", err);
+        console.error("Lỗi khi tải lịch khám:", err);
       }
     });
   }
 
-  getListData(date: any) {
+  getListData(date: any): any[] {
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
-
-    const eventsForDateRaw = this.schedule.filter((event: any) => {
-      const testDateStr = String(event.testDate);
-      return dayjs(testDateStr).format('YYYY-MM-DD') === formattedDate;
+    const eventsForDate = this.schedule.filter((event: any) => {
+      return dayjs(event.testDate).format('YYYY-MM-DD') === formattedDate;
     });
 
-    return eventsForDateRaw.map((event: any) => ({
+    return eventsForDate.map((event: any) => ({
       type: 'success',
       content: event.patient.fullName,
       patient: event.patient,
       testDate: event.testDate
     }));
   }
-  
-  
 
-  dateCellRender(value: dayjs.Dayjs): any {
-    if (value.isBefore(dayjs(), 'day')) {
-      return null;
+handleDateClick(value: any): void {
+  console.log('here');
+  
+  this.selectedDate = dayjs(value);
+  const eventsForDate = this.getListData(value);
+
+  // if (eventsForDate.length > 0) {
+    this.selectedEvents = eventsForDate;
+    this.openModal();
+  // }
+}
+
+
+  opentViewSchedule(event?: any): void {
+    if (event?.testDate) {
+      this.selectedDate = dayjs(event.testDate);
+      this.selectedEvents = [event];
     }
-    const listData = this.getListData(value);
-    // return listData.length ? listData.map(item => `<nz-badge [nzStatus]="${item.type}" [nzText]="${item.content}"></nz-badge>`).join('') : null;
+
+    this.openModal();
   }
 
-  handleDateClick(value: any): void {
-    this.selectedDate = value;
-    const eventsForDate = this.getListData(value);
-    // if (eventsForDate.length > 0) {
-    //   this.isModalVisible = true;
-    // }
+  openModal(): void {
+    this.modalRef = this.modal.info({
+      nzTitle: 'Thông tin lịch khám',
+      nzContent: this.viewScheduleTemplate,
+      nzFooter: null,
+      nzStyle: { 'min-width': '60%' }
+    });
   }
 
   handleModalClose(): void {
-    this.isModalVisible = false;
+    this.modalRef?.destroy();
     this.selectedDate = null;
+    this.selectedEvents = [];
   }
-
 }

@@ -1,31 +1,25 @@
 <nz-calendar (nzSelectChange)="handleDateClick($event)">
-  <ul *nzDateCell="let date" class="events">
-    <li *ngFor="let event of getListData(date)">
-      <nz-badge [nzStatus]="event.type" [nzText]="event.content"></nz-badge>
-    </li>
-  </ul>
+  <ng-template #cellTemplate let-date>
+    <ul class="events">
+      <li *ngFor="let event of getListData(date)">
+        <nz-badge [nzStatus]="event.type" [nzText]="event.content"></nz-badge>
+      </li>
+    </ul>
+  </ng-template>
+
+  <ng-template [nzDateCell]="cellTemplate"></ng-template>
 </nz-calendar>
 
-<!-- <nz-modal [(nzVisible)]="isModalVisible" (nzOnCancel)="handleModalClose()" [nzWidth]="'50%'">
-  <ng-container *ngIf="selectedDate">
-    <h2 style="margin-bottom: 20px;">Thông tin ngày {{ selectedDate.format('DD/MM/YYYY') }}:</h2>
-    <nz-table #basicTable [nzBordered]="true" [nzData]="getListData(selectedDate)" [nzPagination]="false">
-      <thead>
-        <tr>
-          <th nzWidth="10%">STT</th>
-          <th nzWidth="30%">Thời gian khám</th>
-          <th nzWidth="60%">Tên bệnh nhân</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of getListData(selectedDate); let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ item.testDate | date: 'HH:mm' }}</td>
-          <td>
-            <a [routerLink]="['/patient', item.patient.id]">{{ item.patient.fullName }}</a>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </ng-container>
-</nz-modal> -->
+<ng-template #viewSchedule>
+  <div>
+        <strong>Bệnh nhân:</strong> tuan <br />
+
+    <p><strong>Ngày khám:</strong> {{ selectedDate?.format('DD/MM/YYYY') }}</p>
+    <ul>
+      <li *ngFor="let event of selectedEvents">
+        <strong>Bệnh nhân:</strong> tuan <br />
+        <strong>Ngày khám:</strong> {{ event.testDate | date: 'dd/MM/yyyy' }}
+      </li>
+    </ul>
+  </div>
+</ng-template>

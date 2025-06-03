@@ -10,12 +10,10 @@ export class ServiceComponent implements OnInit {
 
   tableColumns = [
     { header: 'STT', field: 'stt', width: '60px' },
-    { header: 'Tên người dùng', field: 'fullName' },
-    { header: 'Email', field: 'email' },
-    { header: 'Số điện thoại', field: 'phone' },
-    { header: 'Địa chỉ', field: 'address' },
-    { header: 'Giới tính', field: 'gender' },
-    { header: 'Ngày sinh', field: 'dateOfBirth' }
+    { header: 'Tên dịch vụ', field: 'name' },
+    { header: 'Gia tiền', field: 'price' },
+    { header: 'Mô tả', field: 'description' },
+    // { header: 'Hình ảnh', field: 'image' }
   ];
 
   fullTableData: any[] = [];

@@ -34,7 +34,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     label: 'Lịch khám',
     icon: 'setting',
-    route: '/dashboard/schedule',
+    route: '/dashboard/doctor-schedule',
     roles: ['DOCTOR']
   },
 

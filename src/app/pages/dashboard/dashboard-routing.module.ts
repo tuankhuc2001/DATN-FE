@@ -24,7 +24,7 @@ const routes: Routes = [
 
       //doctor
       { path: 'doctor', component: ProfileDoctorComponent, },
-      { path: 'schedule', component: ScheduleComponent, },
+      { path: 'doctor-schedule', component: ScheduleComponent, },
 
       {
         path: 'admin',
