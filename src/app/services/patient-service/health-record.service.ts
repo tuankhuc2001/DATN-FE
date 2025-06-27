@@ -8,7 +8,7 @@ import { APP_CONFIG } from '../../environments/environment.dev';
 })
 export class HealthRecordService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { } 
 
   getHealthRecord(id: number): Observable<any> {
     return this.http.get<any>(`${APP_CONFIG.baseUrl}/health-record` + `/${id}`)
